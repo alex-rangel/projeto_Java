@@ -3,7 +3,7 @@ package controller;
 import view.MenuPrincipal;
 import view.TelaBuscarTodasMensagem;
 
-public class ControleDeClientes {
+public class ControleDeMensagem {
 
 
 //	private void cadastrarCliente() {

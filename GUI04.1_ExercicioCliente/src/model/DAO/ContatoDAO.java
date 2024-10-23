@@ -8,34 +8,34 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
-import model.Cliente;
+import model.Contato;
 import util.Conexao;
 import util.Configurador;
 
-public class ClienteDAO {
+public class ContatoDAO {
 
 	private static Configurador configurador = new Configurador(); 
 	
-	public static Cliente inserir(String nome,String cpf,String email) {
-		Cliente cliente = null;
+	public static Contato inserir(String nome,String email,String mensagem) {
+		Contato contato = null;
 		
 		Conexao conexao = new Conexao(configurador.getUrl(),configurador.getDriver(),
 				configurador.getLogin(),configurador.getSenha());
 		Connection con = conexao.obterConexao();
 		
-		String sql = "insert into cliente(nome,cpf,email) values (?,?,?)";
+		String sql = "insert into contato(nome,email,mensagem) values (?,?,?)";
 		
 		try {
 			PreparedStatement comando = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 			comando.setString(1, nome);
-			comando.setString(2, cpf);
-			comando.setString(3, email);
+			comando.setString(2, email);
+			comando.setString(3, mensagem);
 			
 			if(comando.executeUpdate() > 0) {
 				ResultSet rs = comando.getGeneratedKeys();
 				if(rs.next()) {
 					int id = rs.getInt(1);
-					cliente = new Cliente(id, nome, cpf, email);
+					contato = new Contato(id, nome, email, mensagem);
 				}
 				rs.close();
 			}
@@ -49,18 +49,18 @@ public class ClienteDAO {
 			System.out.println("Mensagem de erro: "+e.getMessage());
 			e.printStackTrace();
 		}
-		return cliente;
+		return contato;
 		
 	}
 	
-	public static List<Cliente> buscarTodos(){
-		List<Cliente> clientes = new LinkedList<Cliente>();
+	public static List<Contato> buscarTodos(){
+		List<Contato> Contato = new LinkedList<Contato>();
 		
 		Conexao conexao = new Conexao(configurador.getUrl(),configurador.getDriver(),
 				configurador.getLogin(),configurador.getSenha());
 		Connection con = conexao.obterConexao();
 		
-		String sql = "select * from cliente";
+		String sql = "select * from contato";
 		
 		try {
 			Statement comando = con.createStatement();
@@ -68,13 +68,13 @@ public class ClienteDAO {
 			ResultSet rs = comando.executeQuery(sql);
 			
 			while(rs.next()) {
-				Cliente cliente = new Cliente();
-				cliente.setId(rs.getInt("id"));
-				cliente.setNome(rs.getString("nome"));
-				cliente.setCpf(rs.getString("cpf"));
-				cliente.setEmail(rs.getString("email"));
+				Contato contato = new Contato();
+				contato.setId(rs.getInt("id"));
+				contato.setNome(rs.getString("nome"));
+				contato.setEmail(rs.getString("email"));
+				contato.setMensagem(rs.getString("mensagem"));
 				
-				clientes.add(cliente);
+				Contato.add(contato);
 			}
 			
 			rs.close();
@@ -88,7 +88,7 @@ public class ClienteDAO {
 			e.printStackTrace();
 		}
 		
-		return clientes;
+		return Contato;
 	}
 	
 	public static boolean excluir(int id) {
@@ -98,7 +98,7 @@ public class ClienteDAO {
 				configurador.getLogin(),configurador.getSenha());
 		Connection con = conexao.obterConexao();
 		
-		String sql = "delete from cliente where id=?";
+		String sql = "delete from contato where id=?";
 		
 		try {
 			PreparedStatement comando = con.prepareStatement(sql);
@@ -118,14 +118,14 @@ public class ClienteDAO {
 		return ok;
 	}
 	
-	public static Cliente buscarPorId(int id) {
-		Cliente cliente = null;
+	public static Contato buscarPorId(int id) {
+		Contato contato = null;
 		
 		Conexao conexao = new Conexao(configurador.getUrl(),configurador.getDriver(),
 				configurador.getLogin(),configurador.getSenha());
 		Connection con = conexao.obterConexao();
 		
-		String sql = "select * from cliente where id=?";
+		String sql = "select * from contato where id=?";
 		
 		try {
 			PreparedStatement comando = con.prepareStatement(sql);
@@ -134,11 +134,11 @@ public class ClienteDAO {
 			ResultSet rs = comando.executeQuery();
 			
 			if(rs.next()) {
-				cliente = new Cliente();
-				cliente.setId(rs.getInt("id"));
-				cliente.setNome(rs.getString("nome"));
-				cliente.setCpf(rs.getString("cpf"));
-				cliente.setEmail(rs.getString("email"));				
+				contato = new Contato();
+				contato.setId(rs.getInt("id"));
+				contato.setNome(rs.getString("nome"));
+				contato.setEmail(rs.getString("email"));
+				contato.setMensagem(rs.getString("mensagem"));				
 			}
 			
 			rs.close();
@@ -151,23 +151,23 @@ public class ClienteDAO {
 			System.out.println("Mensagem de erro: "+e.getMessage());
 			e.printStackTrace();
 		}
-		return cliente;		
+		return contato;		
 	}
 	
-	public static boolean atualizar(int id,String nome,String cpf,String email) {
+	public static boolean atualizar(int id,String nome,String email,String mensagem) {
 		boolean ok = false;
 		
 		Conexao conexao = new Conexao(configurador.getUrl(),configurador.getDriver(),
 				configurador.getLogin(),configurador.getSenha());
 		Connection con = conexao.obterConexao();
 		
-		String sql = "update cliente set nome=?,cpf=?,email=? where id=?";
+		String sql = "update contato set nome=?,email=?,mensagem=? where id=?";
 		
 		try {
 			PreparedStatement comando = con.prepareStatement(sql);
 			comando.setString(1, nome);
-			comando.setString(2, cpf);
-			comando.setString(3, email);
+			comando.setString(2, email);
+			comando.setString(3, mensagem);
 			comando.setInt(4, id);
 			
 			ok = comando.executeUpdate() > 0;
@@ -185,14 +185,14 @@ public class ClienteDAO {
 		
 	}
 	
-	public static List<Cliente> buscarPorEmail(String email){
-		List<Cliente> clientes = new LinkedList<Cliente>();
+	public static List<Contato> buscarPorEmail(String email){
+		List<Contato> Contato = new LinkedList<Contato>();
 		
 		Conexao conexao = new Conexao(configurador.getUrl(),configurador.getDriver(),
 				configurador.getLogin(),configurador.getSenha());
 		Connection con = conexao.obterConexao();
 		
-		String sql = "select * from cliente where email=?";
+		String sql = "select * from contato where email=?";
 		
 		try {
 			PreparedStatement comando = con.prepareStatement(sql);
@@ -201,13 +201,13 @@ public class ClienteDAO {
 			ResultSet rs = comando.executeQuery();
 			
 			while(rs.next()) {
-				Cliente cliente = new Cliente();
-				cliente.setId(rs.getInt("id"));
-				cliente.setNome(rs.getString("nome"));
-				cliente.setCpf(rs.getString("cpf"));
-				cliente.setEmail(rs.getString("email"));
+				Contato contato = new Contato();
+				contato.setId(rs.getInt("id"));
+				contato.setNome(rs.getString("nome"));
+				contato.setEmail(rs.getString("cpf"));
+				contato.setMensagem(rs.getString("email"));
 				
-				clientes.add(cliente);
+				Contato.add(contato);
 			}
 			
 			rs.close();
@@ -220,7 +220,7 @@ public class ClienteDAO {
 			System.out.println("Mensagem de erro: "+e.getMessage());
 			e.printStackTrace();
 		}
-		return clientes;
+		return Contato;
 		
 	}
 
