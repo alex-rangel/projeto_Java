@@ -16,16 +16,16 @@ public class MenuPrincipal extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel lblMenuPrincipal = new JLabel("Menu Principal");
-	private JButton botaoCadastrar = new JButton("Cadastrar");
-	private JButton btnMostrarTodos = new JButton("Buscar Todos clientes");
-	private JButton btnBuscarCliente = new JButton("Buscar cliente");
-	private JButton btnExcluirCliente = new JButton("Excluir Cliente");
+	private JButton botaoCadastrar = new JButton("Cadastrar Mensagem");
+	private JButton btnMostrarTodos = new JButton("Buscar Todas as mensagens");
+	private JButton btnBuscarCliente = new JButton("Buscar mensagem");
+	private JButton btnExcluirCliente = new JButton("Excluir mensagem");
 	private JButton btnSair = new JButton("Sair");
 
 	private TelaDeCadastro telaDeCadastro;
-	private TelaBuscarTodos telaBuscarTodosClientes;
-	private TelaDePesquisaDeCliente telaPesquisaCliente;
-	private TelaExcluirCliente telaExcluirCliente;
+	private TelaBuscarTodasMensagem telaBuscarTodosClientes;
+	private TelaDePesquisaDeMensagem telaPesquisaCliente;
+	private TelaExcluirMensagem telaExcluirCliente;
 
 	public MenuPrincipal() {
 
@@ -58,7 +58,7 @@ public class MenuPrincipal extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				telaBuscarTodosClientes = new TelaBuscarTodos();
+				telaBuscarTodosClientes = new TelaBuscarTodasMensagem();
 				telaBuscarTodosClientes.setVisible(true);
 
 			}
@@ -72,7 +72,7 @@ public class MenuPrincipal extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				telaPesquisaCliente = new TelaDePesquisaDeCliente();
+				telaPesquisaCliente = new TelaDePesquisaDeMensagem();
 				telaPesquisaCliente.setVisible(true);
 
 			}
@@ -86,7 +86,7 @@ public class MenuPrincipal extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				telaExcluirCliente = new TelaExcluirCliente();
+				telaExcluirCliente = new TelaExcluirMensagem();
 				telaExcluirCliente.setVisible(true);
 
 			}

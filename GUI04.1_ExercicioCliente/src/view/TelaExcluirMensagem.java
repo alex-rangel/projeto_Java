@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class TelaExcluirCliente extends JFrame {
+public class TelaExcluirMensagem extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -20,18 +20,18 @@ public class TelaExcluirCliente extends JFrame {
 
 	private MenuPrincipal menuPrincipal = new MenuPrincipal();
 
-	public TelaExcluirCliente() {
+	public TelaExcluirMensagem() {
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 
-		JLabel lblExcluirCliente = new JLabel("Excluir Cliente");
+		JLabel lblExcluirCliente = new JLabel("Excluir Mensagem");
 		lblExcluirCliente.setFont(new Font("Dialog", Font.BOLD, 18));
-		lblExcluirCliente.setBounds(269, 12, 188, 15);
+		lblExcluirCliente.setBounds(269, 12, 188, 25);
 		contentPane.add(lblExcluirCliente);
 
-		JLabel lblChaveParaExclusao = new JLabel("Informe o ID do cliente");
+		JLabel lblChaveParaExclusao = new JLabel("Informe o ID da Mensagem");
 		lblChaveParaExclusao.setBounds(31, 77, 174, 15);
 		contentPane.add(lblChaveParaExclusao);
 
@@ -78,7 +78,7 @@ public class TelaExcluirCliente extends JFrame {
 		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		contentPane.add(btnExcluir);
 
-		add(contentPane);
+		getContentPane().add(contentPane);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 732, 312);

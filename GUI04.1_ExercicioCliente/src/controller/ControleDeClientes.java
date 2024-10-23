@@ -1,7 +1,7 @@
 package controller;
 
 import view.MenuPrincipal;
-import view.TelaBuscarTodos;
+import view.TelaBuscarTodasMensagem;
 
 public class ControleDeClientes {
 

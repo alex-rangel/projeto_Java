@@ -13,7 +13,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class TelaDePesquisaDeCliente extends JFrame {
+public class TelaDePesquisaDeMensagem extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -21,22 +21,22 @@ public class TelaDePesquisaDeCliente extends JFrame {
 
 	private MenuPrincipal menuPrincipal = new MenuPrincipal();
 
-	public TelaDePesquisaDeCliente() {
+	public TelaDePesquisaDeMensagem() {
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 
-		JLabel lblBuscaDeCliente = new JLabel("Busca de Cliente");
+		JLabel lblBuscaDeCliente = new JLabel("Busca de Mensgem");
 		lblBuscaDeCliente.setFont(new Font("Dialog", Font.BOLD, 18));
-		lblBuscaDeCliente.setBounds(269, 12, 188, 15);
+		lblBuscaDeCliente.setBounds(269, 12, 188, 23);
 		contentPane.add(lblBuscaDeCliente);
 
 		JLabel lblSelecioneAForma = new JLabel("Selecione a forma de pesquisa:");
 		lblSelecioneAForma.setBounds(31, 43, 231, 15);
 		contentPane.add(lblSelecioneAForma);
 
-		JRadioButton radioCPF = new JRadioButton("CPf");
+		JRadioButton radioCPF = new JRadioButton("ID");
 		radioCPF.setBounds(279, 39, 57, 23);
 		contentPane.add(radioCPF);
 
@@ -86,7 +86,7 @@ public class TelaDePesquisaDeCliente extends JFrame {
 		});
 		contentPane.add(btnVoltar);
 
-		add(contentPane);
+		getContentPane().add(contentPane);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 732, 312);

@@ -12,18 +12,18 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-public class TelaBuscarTodos extends JFrame {
+public class TelaBuscarTodasMensagem extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JLabel lblClientesCadastrados = new JLabel("Clientes Cadastrados");
+	private JLabel lblClientesCadastrados = new JLabel("Mensagens Cadastradas");
 	private JScrollPane scrollPane = new JScrollPane();
 	private JButton btnVoltar = new JButton("Voltar");
 	private JButton btnSair = new JButton("Sair");
 
 	private MenuPrincipal menuPrincipal = new MenuPrincipal();
 
-	public TelaBuscarTodos() {
+	public TelaBuscarTodasMensagem() {
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -61,7 +61,7 @@ public class TelaBuscarTodos extends JFrame {
 		});
 		contentPane.add(btnSair);
 
-		add(contentPane);
+		getContentPane().add(contentPane);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 712, 362);
