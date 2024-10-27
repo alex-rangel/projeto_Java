@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -9,18 +10,23 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextArea;
+
+import controller.ControleDeMensagem;
+import javax.swing.JScrollPane;
 
 public class TelaDeCadastro extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField campoCPF;
+	private JTextField campoEmail;
 	private JTextField campoNome;
 
+	private ControleDeMensagem controllerMensagem;
 	private MenuPrincipal menuPrincipal = new MenuPrincipal();
 
 	public TelaDeCadastro() {
@@ -30,42 +36,47 @@ public class TelaDeCadastro extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 
-		JLabel lblCadastrarCliente = new JLabel("Cadastrar Mensagem");
-		lblCadastrarCliente.setFont(new Font("Dialog", Font.BOLD, 20));
-		lblCadastrarCliente.setBounds(212, 12, 211, 56);
-		contentPane.add(lblCadastrarCliente);
+		JLabel lblCadastrarMensagem = new JLabel("Cadastrar Mensagem");
+		lblCadastrarMensagem.setFont(new Font("Dialog", Font.BOLD, 20));
+		lblCadastrarMensagem.setBounds(212, 12, 211, 56);
+		contentPane.add(lblCadastrarMensagem);
 
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(119, 118, 123));
-		panel.setBounds(107, 80, 447, 247);
-		contentPane.add(panel);
-		panel.setLayout(null);
+		JPanel painelPrincipal = new JPanel();
+		painelPrincipal.setBackground(new Color(119, 118, 123));
+		painelPrincipal.setBounds(107, 80, 447, 247);
+		contentPane.add(painelPrincipal);
+		painelPrincipal.setLayout(null);
 
-		campoCPF = new JTextField();
-		campoCPF.setColumns(10);
-		campoCPF.setBounds(117, 76, 235, 26);
-		panel.add(campoCPF);
+		campoEmail = new JTextField();
+		campoEmail.setColumns(10);
+		campoEmail.setBounds(117, 76, 235, 26);
+		painelPrincipal.add(campoEmail);
 
-		JLabel lblCPF = new JLabel("E-mail");
-		lblCPF.setBounds(117, 61, 70, 15);
-		panel.add(lblCPF);
+		JLabel lblEmail = new JLabel("E-mail");
+		lblEmail.setBounds(117, 61, 70, 15);
+		painelPrincipal.add(lblEmail);
 
 		campoNome = new JTextField();
 		campoNome.setColumns(10);
 		campoNome.setBounds(117, 24, 235, 26);
-		panel.add(campoNome);
+		painelPrincipal.add(campoNome);
 
 		JLabel lblNome = new JLabel("Nome");
 		lblNome.setBounds(117, 11, 70, 15);
-		panel.add(lblNome);
+		painelPrincipal.add(lblNome);
 
-		JLabel lblEmail = new JLabel("Mensagem");
-		lblEmail.setBounds(117, 113, 70, 15);
-		panel.add(lblEmail);
-		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(117, 128, 235, 95);
-		panel.add(textArea);
+		JLabel lblMensagem = new JLabel("Mensagem");
+		lblMensagem.setBounds(117, 113, 114, 15);
+		painelPrincipal.add(lblMensagem);
+
+		JTextArea campoMensagem = new JTextArea(5, 15);
+		campoMensagem.setBounds(117, 128, 235, 95);
+		campoMensagem.setLineWrap(true);
+		campoMensagem.setWrapStyleWord(true);
+
+		JScrollPane scrollPane = new JScrollPane(campoMensagem);
+		scrollPane.setBounds(117, 130, 235, 105);
+		painelPrincipal.add(scrollPane);
 
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -85,6 +96,25 @@ public class TelaDeCadastro extends JFrame {
 		btnCadastrar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnCadastrar.setBounds(278, 358, 119, 25);
 		contentPane.add(btnCadastrar);
+		btnCadastrar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String nome = campoNome.getText();
+				String email = campoEmail.getText();
+				String mensagem = campoMensagem.getText();
+
+				controllerMensagem = new ControleDeMensagem();
+
+				boolean confCadastroContato = controllerMensagem.cadastrarCliente(nome, email, mensagem);
+
+				if (confCadastroContato) {
+					JOptionPane.showMessageDialog(btnCadastrar, "Usuário cadastrado com sucesso!!!");
+				} else {
+					JOptionPane.showMessageDialog(btnCadastrar, "Erro ao cadastrar o usuário");
+				}
+			}
+		});
 
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(435, 358, 119, 25);

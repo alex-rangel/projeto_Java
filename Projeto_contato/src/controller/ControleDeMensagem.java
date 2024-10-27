@@ -1,61 +1,37 @@
 package controller;
 
-import view.MenuPrincipal;
-import view.TelaBuscarTodasMensagem;
+import java.util.List;
+
+import model.Contato;
+import model.DAO.ContatoDAO;
 
 public class ControleDeMensagem {
 
+	public boolean cadastrarCliente(String nome, String email, String mensagem) {
 
-//	private void cadastrarCliente() {
-//		System.out.println("--Cadastrar Cliente--");
-//		String nome = Teclado.lerTexto("Nome:");
-//		String cpf = Teclado.lerTexto("CPF.:");
-//		String email = Teclado.lerTexto("E-mail:");
-//
-//		Cliente cliente = ClienteDAO.inserir(nome, cpf, email);
-//
-//		if (cliente != null) {
-//			System.out.println("Cliente cadastrado com sucesso.");
-//			System.out.println(cliente);
-//		} else {
-//			System.out.println("Erro ao inserir cliente.");
-//		}
-//
-//	}
-//
-//	private void visualizarTodosClientes() {
-//		System.out.println("--Visualizar Clientes--");
-//		List<Cliente> clientes = ClienteDAO.buscarTodos();
-//		if (!clientes.isEmpty()) {
-//			for (Cliente cliente : clientes) {
-//				System.out.println(cliente);
-//				System.out.println();
-//			}
-//		} else {
-//			System.out.println("Nenhum cliente cadastrado.");
-//		}
-//	}
-//
-//	private void apagarCliente() {
-//		System.out.println("--Apagar Cliente--");
-//		int id = Teclado.lerInt("ID:");
-//		Cliente cliente = ClienteDAO.buscarPorId(id);
-//		if (cliente != null) {
-//			System.out.println(cliente);
-//			String conf = Teclado.lerTexto("Deseja realmente excluir o cliente acima?(Sim ou Não)");
-//			if (conf.equalsIgnoreCase("sim")) {
-//				if (ClienteDAO.excluir(id)) {
-//					System.out.println("Cliente excluído com sucesso.");
-//				} else {
-//					System.out.println("Erro ao excluir cliente.");
-//				}
-//			} else {
-//				System.out.println("Procedimento cancelado.");
-//			}
-//		} else {
-//			System.out.println("Erro ao excluir cliente ou clilente inexistente.");
-//		}
-//	}
+		Contato contato = ContatoDAO.inserir(nome, email, mensagem);
+
+		if (contato != null) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	public List<Contato> buscarTodos() {
+
+		List<Contato> contatos = ContatoDAO.buscarTodos();
+		return contatos;
+	}
+
+	public boolean apagarContato(int id) {
+		
+		boolean confirmacao = ContatoDAO.excluir(id);
+		
+		return confirmacao;
+		
+	}
 //
 //	private void atualizarCliente() {
 //		System.out.println("--Atualizar Cliente--");
@@ -90,29 +66,21 @@ public class ControleDeMensagem {
 //			System.out.println("Erro ao atualizar cliente ou cliente inexitente.");
 //		}
 //	}
-//
-//	private void buscarPorId() {
-//		System.out.println("--Buscar por ID--");
-//		int id = Teclado.lerInt("ID:");
-//		Cliente cliente = ClienteDAO.buscarPorId(id);
-//		if (cliente != null) {
-//			System.out.println(cliente);
-//		} else {
-//			System.out.println("Erro ao buscar cliente ou cliente inexistente.");
-//		}
-//	}
-//
-//	private void buscarPorEmail() {
-//		System.out.println("--Buscar por E-mail--");
-//		String email = Teclado.lerTexto("E-mail:");
-//		List<Cliente> clientes = ClienteDAO.buscarPorEmail(email);
-//		if (!clientes.isEmpty()) {
-//			for (Cliente cliente : clientes) {
-//				System.out.println(cliente);
-//			}
-//		} else {
-//			System.out.println("Nenhum cliente encontrado.");
-//		}
-//	}
+
+	public Contato buscarPorId(String Id) {
+
+		int id = Integer.parseInt(Id);
+
+		Contato contato = ContatoDAO.buscarPorId(id);
+
+		return contato;
+	}
+
+	public Contato buscarPorEmail(String email) {
+
+		Contato contato = ContatoDAO.buscarPorEmail(email);
+
+		return contato;
+	}
 
 }

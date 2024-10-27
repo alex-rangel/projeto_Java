@@ -5,19 +5,32 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import controller.ControleDeMensagem;
+import model.Contato;
+import javax.swing.JScrollPane;
 
 public class TelaDePesquisaDeMensagem extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField campoChavePesquisa;
+	private String formaPesquisa;
+	private JLabel lblChavePesquisa = new JLabel("");
+	private ControleDeMensagem controllerMensagem;
+	private Contato contato;
+	JTable tabela = new JTable();
 
 	private MenuPrincipal menuPrincipal = new MenuPrincipal();
 
@@ -36,15 +49,36 @@ public class TelaDePesquisaDeMensagem extends JFrame {
 		lblSelecioneAForma.setBounds(31, 43, 231, 15);
 		contentPane.add(lblSelecioneAForma);
 
-		JRadioButton radioCPF = new JRadioButton("ID");
-		radioCPF.setBounds(279, 39, 57, 23);
-		contentPane.add(radioCPF);
+		JRadioButton radioID = new JRadioButton("ID");
+		radioID.setBounds(279, 39, 57, 23);
+		radioID.setActionCommand("ID");
+		contentPane.add(radioID);
+		radioID.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				lblChavePesquisa.setText("Informe o ID");
+
+			}
+		});
 
 		JRadioButton radioEmail = new JRadioButton("E-mail");
 		radioEmail.setBounds(359, 39, 98, 23);
+		radioEmail.setActionCommand("E-mail");
 		contentPane.add(radioEmail);
+		radioEmail.addActionListener(new ActionListener() {
 
-		JLabel lblChavePesquisa = new JLabel("Informe o ");
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				lblChavePesquisa.setText("Informe o E-mail");
+
+			}
+		});
+
+		ButtonGroup grupoPesquisa = new ButtonGroup();
+		grupoPesquisa.add(radioID);
+		grupoPesquisa.add(radioEmail);
+
 		lblChavePesquisa.setBounds(31, 77, 153, 15);
 		contentPane.add(lblChavePesquisa);
 
@@ -53,13 +87,52 @@ public class TelaDePesquisaDeMensagem extends JFrame {
 		contentPane.add(campoChavePesquisa);
 		campoChavePesquisa.setColumns(10);
 
-		JPanel panel = new JPanel();
-		panel.setBounds(45, 118, 650, 38);
-		contentPane.add(panel);
-		panel.setLayout(null);
+		String[] nomesColunas = { "ID", "Nome", "E-mail", "Mensagem" };
+		DefaultTableModel tableModel = new DefaultTableModel(nomesColunas, 0);
+		tabela.setModel(tableModel);
+
+		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setBounds(451, 209, 117, 25);
+		btnBuscar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				formaPesquisa = grupoPesquisa.getSelection().getActionCommand();
+
+				if (formaPesquisa.equals("ID")) {
+					controllerMensagem = new ControleDeMensagem();
+
+					contato = controllerMensagem.buscarPorId(campoChavePesquisa.getText());
+
+					if (contato != null) {
+						Object[] dados = { contato.getId(), contato.getNome(), contato.getEmail(),
+								contato.getMensagem() };
+						tableModel.addRow(dados);
+					} else {
+						JOptionPane.showMessageDialog(null, "Nenhum contato encontrado com esse Id.");
+					}
+
+				} else if (formaPesquisa.equals("E-mail")) {
+					controllerMensagem = new ControleDeMensagem();
+					contato = controllerMensagem.buscarPorEmail(campoChavePesquisa.getText());
+
+					if (contato != null) {
+						Object[] dados = { contato.getId(), contato.getNome(), contato.getEmail(),
+								contato.getMensagem() };
+						tableModel.addRow(dados);
+					} else {
+//						JOptionPane.showMessageDialog(null, "Nenhum contato encontrado com esse E-mail."+campoChavePesquisa.getText());
+						JOptionPane.showMessageDialog(null, campoChavePesquisa.getText());
+					}
+
+				}
+			}
+		});
+		contentPane.add(btnBuscar);
 
 		JButton btnSair = new JButton("Sair");
-		btnSair.setBounds(434, 209, 117, 25);
+		btnSair.setBounds(322, 209, 117, 25);
 		btnSair.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnSair.addActionListener(new ActionListener() {
 
@@ -87,6 +160,11 @@ public class TelaDePesquisaDeMensagem extends JFrame {
 		contentPane.add(btnVoltar);
 
 		getContentPane().add(contentPane);
+
+		JScrollPane scrollPaneTabela = new JScrollPane();
+		scrollPaneTabela.setBounds(31, 116, 666, 67);
+		scrollPaneTabela.getViewport().add(tabela);
+		contentPane.add(scrollPaneTabela);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 732, 312);

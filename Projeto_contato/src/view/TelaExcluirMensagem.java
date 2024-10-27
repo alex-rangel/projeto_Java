@@ -8,15 +8,19 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import controller.ControleDeMensagem;
 
 public class TelaExcluirMensagem extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField campoChavePesquisa;
+	private ControleDeMensagem controllerMensagem;
 
 	private MenuPrincipal menuPrincipal = new MenuPrincipal();
 
@@ -32,18 +36,13 @@ public class TelaExcluirMensagem extends JFrame {
 		contentPane.add(lblExcluirCliente);
 
 		JLabel lblChaveParaExclusao = new JLabel("Informe o ID da Mensagem");
-		lblChaveParaExclusao.setBounds(31, 77, 174, 15);
+		lblChaveParaExclusao.setBounds(31, 77, 204, 15);
 		contentPane.add(lblChaveParaExclusao);
 
 		campoChavePesquisa = new JTextField();
-		campoChavePesquisa.setBounds(223, 75, 65, 19);
+		campoChavePesquisa.setBounds(239, 75, 65, 19);
 		contentPane.add(campoChavePesquisa);
 		campoChavePesquisa.setColumns(10);
-
-		JPanel panel = new JPanel();
-		panel.setBounds(45, 118, 650, 38);
-		contentPane.add(panel);
-		panel.setLayout(null);
 
 		JButton btnSair = new JButton("Sair");
 		btnSair.setBounds(440, 209, 117, 25);
@@ -76,6 +75,23 @@ public class TelaExcluirMensagem extends JFrame {
 		JButton btnExcluir = new JButton("Excluir");
 		btnExcluir.setBounds(282, 209, 117, 25);
 		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnExcluir.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				int id = Integer.parseInt(campoChavePesquisa.getText());
+				controllerMensagem = new ControleDeMensagem();
+				boolean confirmacao =  controllerMensagem.apagarContato(id);
+				
+				if(confirmacao) {
+					JOptionPane.showMessageDialog(null, "Usuário excluido com sucesso.");
+				}else {
+					JOptionPane.showMessageDialog(null, "Falha ao excluir o usuário.");
+				}
+
+			}
+		});
 		contentPane.add(btnExcluir);
 
 		getContentPane().add(contentPane);
